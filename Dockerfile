@@ -136,10 +136,10 @@ RUN echo '***********************************' && \
     echo '*******Installing Flye ************' && \
     echo '***********************************' && \
     wget "https://codeload.github.com/fenderglass/Flye/tar.gz/2.3.1" && \
-    tar -xzvf 2.3.1 && \  
+    tar -xzvf 2.3.1 && \ 
+    rm 2.3.1 && \ 
     cd Flye-2.3.1 && \  
-    python2 setup.py install && cd .. && \
-    rm Flye-2.3.1 
+    python2 setup.py install && cd .. 
 
 RUN echo '***********************************' && \
     echo '*******Installing nanopolish ******' && \
