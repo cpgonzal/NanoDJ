@@ -31,7 +31,7 @@ RUN echo '**************************************' && \
     echo '*******Installing minimap2 ***********' && \
     echo '**************************************' && \
     git clone https://github.com/lh3/minimap2 && \
-    cd minimap2 && make && cd .. && 
+    cd minimap2 && make && cd .. 
 
 RUN echo '**************************************' && \
     echo '*******Installing racon    ***********' && \
