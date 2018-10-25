@@ -70,7 +70,7 @@ RUN echo '**************************************' && \
     echo '**************************************' && \
     git clone https://github.com/rrwick/Porechop.git && \
     cd Porechop && \
-    python3 setup.py install && 
+    python3 setup.py install
 
 RUN echo '**************************************' && \
     echo '*******Installing Rebaler ************' && \
