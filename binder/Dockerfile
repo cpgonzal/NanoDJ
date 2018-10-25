@@ -196,9 +196,3 @@ ENV PATH "$PATH:/home/jovyan/software/MaSuRCA-3.2.4/bin"
 ENV PATH "$PATH:/home/jovyan/software/Bandage"
 
 
-WORKDIR /home/jovyan/notebooks
-USER jovyan
-CMD jupyter lab --allow-root
-
-
-
