@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/cpgonzal/NanoDJ/master)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/cpgonzal/NanoDJ/binder)
 
 ![alt text](https://i.imgur.com/UmUUyLp.png "NanoDJ-logo")
 
