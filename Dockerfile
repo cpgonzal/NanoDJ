@@ -84,8 +84,6 @@ RUN echo '***********************************' && \
     echo '***********************************' && \
     wget "http://cab.spbu.ru/files/release3.11.0/SPAdes-3.11.0-Linux.tar.gz" && \
     tar -xvzf SPAdes-3.11.0-Linux.tar.gz && rm SPAdes-3.11.0-Linux.tar.gz && \
-    wget "https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.3/bowtie2-2.3.3-linux-x86_64.zip" && \
-    unzip bowtie2-2.3.3-linux-x86_64.zip -d ~ && rm bowtie2-2.3.3-linux-x86_64.zip && \
     wget "https://sourceforge.net/projects/samtools/files/samtools/1.5/samtools-1.5.tar.bz2" && \
     tar -xvjf samtools-1.5.tar.bz2 && rm samtools-1.5.tar.bz2 
 
