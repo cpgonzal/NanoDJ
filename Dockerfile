@@ -31,7 +31,9 @@ RUN echo '**************************************' && \
     echo '*******Installing minimap2 ***********' && \
     echo '**************************************' && \
     git clone https://github.com/lh3/minimap2 && \
-    cd minimap2 && make && cd ..
+    cd minimap2 && make && \
+    find . -name '*.o' -exec rm -f {} \; && \
+    cd ..
 
 RUN echo '**************************************' && \
     echo '*******Installing racon    ***********' && \
@@ -39,38 +41,44 @@ RUN echo '**************************************' && \
     git clone --recursive https://github.com/isovic/racon.git racon && \
     cd racon && mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release .. && \
-    make 
+    make && \
+    find . -name '*.o' -exec rm -f {} \; 
 
 RUN echo '**************************************' && \
     echo '*******Installing Unicycler **********' && \
     echo '**************************************' && \
     git clone https://github.com/rrwick/Unicycler.git && \
-    cd Unicycler && make && cd .. 
+    cd Unicycler && make && \
+    find . -name '*.o' -exec rm -f {} \; && \
+    cd .. 
 
 RUN echo '**************************************' && \
     echo '*******Installing miniasm ************' && \
     echo '**************************************' && \
     git clone https://github.com/lh3/miniasm && \
-    (cd miniasm && make) 
+    (cd miniasm && make && find . -name '*.o' -exec rm -f {} \;) 
 
 RUN echo '**************************************' && \
     echo '*******Installing canu ***************' && \
     echo '**************************************' && \
     git clone https://github.com/marbl/canu.git && \
-    cd canu/src && make -j 1
+    cd canu/src && make -j 1 && find . -name '*.o' -exec rm -f {} \;
 
 RUN echo '**************************************' && \
     echo '*******Installing quast **************' && \
     echo '**************************************' && \
     git clone https://github.com/ablab/quast.git && \ 
-    cd quast && ./setup.py install && cd .. 
+    cd quast && ./setup.py install && \
+    find . -name '*.o' -exec rm -f {} \; && \
+    cd .. 
 
 RUN echo '**************************************' && \
     echo '*******Installing Porechop ***********' && \
     echo '**************************************' && \
     git clone https://github.com/rrwick/Porechop.git && \
     cd Porechop && \
-    python3 setup.py install
+    python3 setup.py install && \
+    find . -name '*.o' -exec rm -f {} \;
 
 RUN echo '**************************************' && \
     echo '*******Installing Rebaler ************' && \
@@ -100,7 +108,9 @@ RUN echo '***********************************' && \
     wget "https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.15.tar.bz2" && \
     tar -xvjf bwa-0.7.15.tar.bz2 && \
     rm bwa-0.7.15.tar.bz2 && \ 
-    cd bwa-0.7.15 && make && cd .. 
+    cd bwa-0.7.15 && make && \
+    find . -name '*.o' -exec rm -f {} \; && \
+    cd .. 
 
 RUN echo '***********************************' && \
     echo '*******Installing ncbi-blast ******' && \
@@ -115,7 +125,9 @@ RUN echo '***********************************' && \
     wget "https://github.com/alekseyzimin/masurca/files/1668918/MaSuRCA-3.2.4.tar.gz" && \  
     tar -xzvf MaSuRCA-3.2.4.tar.gz && \
     rm MaSuRCA-3.2.4.tar.gz && \
-    cd MaSuRCA-3.2.4 && ./install.sh && cd .. 
+    cd MaSuRCA-3.2.4 && ./install.sh && \
+    find . -name '*.o' -exec rm -f {} \; && \
+    cd .. 
 
 RUN echo '*********************************************' && \
     echo '*******Installing rhdf5 (R bioconductor) ****' && \
@@ -144,7 +156,9 @@ RUN echo '***********************************' && \
     echo '***********************************' && \
     git clone --recursive https://github.com/jts/nanopolish.git && \
     cd nanopolish && \
-    make && cd .. 
+    make && \
+    find . -name '*.o' -exec rm -f {} \; && \
+    cd .. 
 
 RUN echo '***********************************' && \
     echo '*******Installing bowtie2 *********' && \
