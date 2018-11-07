@@ -8,6 +8,5 @@ RUN git init && \
     rm -rf .git && \
     chown -R jovyan:users ~/notebooks 
 
-
 USER jovyan
 CMD jupyter lab --allow-root
