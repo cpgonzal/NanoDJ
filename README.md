@@ -1,10 +1,12 @@
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/cpgonzal/NanoDJ/binder)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/genomicsITER/NanoDJ/binder)
+
+
 
 ![alt text](https://i.imgur.com/UmUUyLp.png "NanoDJ-logo")
 
 NanoDJ is a Jupyter notebook integration of tools for simplified manipulation and assembly of DNA sequences produced by ONT devices. It integrates basecalling, read trimming and quality control, simulation and plotting routines with a variety of widely used aligners and assemblers, including procedures for hybrid assembly. 
 
-![alt text](https://i.imgur.com/r2ls27U.png "NanoDJ-pipeline")
+![alt text](https://i.imgur.com/TFKsDHa.png "NanoDJ-pipeline")
 
 NanoDJ is built as a Docker container that runs a Jupyter Lab instance. The user can work with ONT data using the notebooks that are provided or open a new Jupyter Lab session and run the included software packages.
 
@@ -27,8 +29,17 @@ Create a container with the image:
 ```
 docker run -it --rm -p 8888:8888 -v /path/to/nanodjrepo/nanodj_notebooks:/home/jovyan/notebooks nanodj:latest
 ```
+In order to spawn the Bandage GUI from NanoDJ on your machine, you should run the container setting the [DISPLAY](https://askubuntu.com/questions/432255/what-is-the-display-environment-variable) environment variable and mounting the [X11](https://en.wikipedia.org/wiki/X_Window_System) socket as shown below. This is only valid for Linux users:
 
-Open the localhost:8888/*token* link that appears in the output after the Jupyter Lab instance is started.
+```
+docker run -it --rm -p 8888:8888 \  
+           -e DISPLAY=$DISPLAY \  
+           -v /tmp/.X11-unix:/tmp/.X11-unix \  
+           -v /path/to/NanoDJ/nanodj_notebooks:/home/jovyan/notebooks \  
+           nanodj:latest
+```
+
+After running the *docker run* command, open  the localhost:8888/*token* link that appears in the output after the Jupyter Lab instance is started.
 
 NanoDJ includes data and notebooks. However, a volume (the -v option) should be created to import these materials. With this volume, input and output data and modified notebooks can be saved on your host machine. 
 
@@ -72,14 +83,12 @@ With this command we change the owner recursively setting the UID and GID with t
 
 - To be released.
 
-### **NanoDJ support:**
+### **Getting help with NanoDJ**
 
 Feel free to open a new issue on this repository or contact us by email: *genomica@iter.es*  
-
-**NanoDJ image logo by Daniel Medina (IG:@danymedale)**  
 
 ### **How to cite NanoDJ:**
 
 Rodríguez-Pérez H, Hernández-Beeftink T, Lorenzo-Salazar JM, Roda-García JL, Pérez-González CJ, Colebrook M, Flores C. (2018) NanoDJ: A Dockerized Jupyter Notebook for Interactive Oxford Nanopore MinION Sequence Manipulation and Genome Assembly. Submitted.  
 
-*NanoDJ image logo by Daniel Medina (IG:@danymedale)*  
+**NanoDJ image logo by Daniel Medina (IG:@danymedale)**  

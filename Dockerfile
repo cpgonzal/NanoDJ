@@ -6,7 +6,7 @@ USER root
 WORKDIR /home/jovyan/software
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
     zlib1g-dev \
     cmake \
     default-jre \ 
@@ -21,8 +21,8 @@ RUN apt-get update && \
     python3-h5py python3-numpy python3-dateutil python3-progressbar \
     libboost-filesystem1.58.0 libboost-program-options1.58.0 \
     libboost-system1.58.0 libboost-log1.58.0 libboost-thread1.58.0 \
-    libboost-python1.58.0 && \
-    rm -rf /var/lib/apt/lists/*
+    libboost-python1.58.0 graphviz
+
 
 RUN pip install bash_kernel biopython nanosim-h jupyterlab && \
     python -m bash_kernel.install
@@ -90,10 +90,14 @@ RUN echo '**************************************' && \
 RUN echo '***********************************' && \
     echo '*******Installing samtools  *******' && \
     echo '***********************************' && \
-    wget "http://cab.spbu.ru/files/release3.11.0/SPAdes-3.11.0-Linux.tar.gz" && \
-    tar -xvzf SPAdes-3.11.0-Linux.tar.gz && rm SPAdes-3.11.0-Linux.tar.gz && \
     wget "https://sourceforge.net/projects/samtools/files/samtools/1.5/samtools-1.5.tar.bz2" && \
     tar -xvjf samtools-1.5.tar.bz2 && rm samtools-1.5.tar.bz2 
+
+RUN echo '***********************************' && \
+    echo '*******Installing SPAdes  *******' && \
+    echo '***********************************' && \
+    wget "http://cab.spbu.ru/files/release3.13.0/SPAdes-3.13.0-Linux.tar.gz" && \
+    tar -xvzf SPAdes-3.13.0-Linux.tar.gz && rm SPAdes-3.13.0-Linux.tar.gz
 
 RUN echo '***********************************' && \
     echo '*******Installing pilon ***********' && \
@@ -113,7 +117,7 @@ RUN echo '***********************************' && \
     cd .. 
 
 RUN echo '***********************************' && \
-    echo '*******Installing ncbi-blast ******' && \
+    echo '*******Installing ncbi-blast+ *****' && \
     echo '***********************************' && \
     wget "https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.7.1+-x64-linux.tar.gz" && \
     tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz && \ 
@@ -122,10 +126,10 @@ RUN echo '***********************************' && \
 RUN echo '***********************************' && \
     echo '*******Installing MaSuRCA *********' && \
     echo '***********************************' && \
-    wget "https://github.com/alekseyzimin/masurca/files/1668918/MaSuRCA-3.2.4.tar.gz" && \  
-    tar -xzvf MaSuRCA-3.2.4.tar.gz && \
-    rm MaSuRCA-3.2.4.tar.gz && \
-    cd MaSuRCA-3.2.4 && ./install.sh && \
+    wget "https://github.com/alekseyzimin/masurca/releases/download/3.2.8/MaSuRCA-3.2.8.tar.gz" && \  
+    tar -xzvf MaSuRCA-3.2.8.tar.gz && \
+    rm MaSuRCA-3.2.8.tar.gz && \
+    cd MaSuRCA-3.2.8 && ./install.sh && \
     find . -name '*.o' -exec rm -f {} \; && \
     cd .. 
 
@@ -135,20 +139,13 @@ RUN echo '*********************************************' && \
     echo 'local({r <- getOption("repos"); r["CRAN"] <- "http://cran.cnr.berkeley.edu/"; options(repos = r)})'  >> /home/jovyan/.Rprofile && \
     R -e "source('http://www.bioconductor.org/biocLite.R'); biocLite('rhdf5'); install.packages(c('shiny','svDialogs','data.table','bit64'))" 
 
-RUN echo '********************************************' && \
-    echo '*******Installing poRe (R library) *********' && \
-    echo '********************************************' && \
-    wget "https://downloads.sourceforge.net/project/rpore/0.24/poRe_0.24.tar.gz" && \
-    R CMD INSTALL poRe_0.24.tar.gz && \
-    rm poRe_0.24.tar.gz
-
 RUN echo '***********************************' && \
     echo '*******Installing Flye ************' && \
     echo '***********************************' && \
-    wget "https://codeload.github.com/fenderglass/Flye/tar.gz/2.3.1" && \
-    tar -xzvf 2.3.1 && \ 
-    rm 2.3.1 && \ 
-    cd Flye-2.3.1 && \  
+    wget "https://codeload.github.com/fenderglass/Flye/tar.gz/2.3.6" && \
+    tar -xzvf 2.3.6 && \ 
+    rm 2.3.6 && \ 
+    cd Flye-2.3.6 && \  
     python2 setup.py install && cd .. 
 
 RUN echo '***********************************' && \
@@ -173,24 +170,32 @@ RUN echo '****************************************************' && \
     wget -O- https://mirror.oxfordnanoportal.com/apt/ont-repo.pub | apt-key add - && \
     echo "deb http://mirror.oxfordnanoportal.com/apt xenial-stable non-free" | tee /etc/apt/sources.list.d/nanoporetech.sources.list && \
     apt-get update && \ 
-    wget -qO python3-ont-albacore_2.3.1-1~xenial_amd64.deb https://mirror.oxfordnanoportal.com/software/analysis/python3-ont-albacore_2.3.1-1~xenial_amd64.deb && \
-   apt-get install -y python3-ont-fast5-api && \ 
-   dpkg -i python3-ont-albacore_2.3.1-1~xenial_amd64.deb && \
-   rm python3-ont-albacore_2.3.1-1~xenial_amd64.deb && \
-   apt-get install -fy && \
-   apt-get -y install gnuplot-x11 qt5-default 
+    wget -qO python3-ont-albacore_2.3.3-1~xenial_amd64.deb https://mirror.oxfordnanoportal.com/software/analysis/python3-ont-albacore_2.3.3-1~xenial_amd64.deb && \
+    apt-get install -y python3-ont-fast5-api && \ 
+    dpkg -i python3-ont-albacore_2.3.3-1~xenial_amd64.deb && \
+    rm python3-ont-albacore_2.3.3-1~xenial_amd64.deb && \
+    apt-get install -fy && \
+    apt-get -y install gnuplot-x11 qt5-default 
 
 RUN echo '***********************************' && \
-   echo '*******Installing Bandage *********' && \
-   echo '***********************************' && \
-   mkdir Bandage && cd Bandage && \  
+    echo '*******Installing Bandage *********' && \
+    echo '***********************************' && \
+    mkdir Bandage && cd Bandage && \  
     wget "https://github.com/rrwick/Bandage/releases/download/v0.8.1/Bandage_Ubuntu_dynamic_v0_8_1.zip" && \  
     unzip Bandage_Ubuntu_dynamic_v0_8_1.zip && \  
     rm Bandage_Ubuntu_dynamic_v0_8_1.zip 
 
+RUN echo '***********************************' && \
+    echo '*******Installing Nanosim *********' && \
+    echo '***********************************' && \
+    wget "https://github.com/bcgsc/NanoSim/archive/v2.1.0.tar.gz" && \
+    tar -xzvf v2.1.0.tar.gz && \
+    rm v2.1.0.tar.gz && \
+    pip install HTSeq
+
 ENV PATH "$PATH:/home/jovyan/software/ncbi-blast-2.7.1+/bin"
 ENV PATH "$PATH:/home/jovyan/software/Porechop"
-ENV PATH "$PATH:/home/jovyan/software/SPAdes-3.11.0-Linux/bin"
+ENV PATH "$PATH:/home/jovyan/software/SPAdes-3.13.0-Linux/bin"
 ENV PATH "$PATH:/home/jovyan/software/minimap2"
 ENV PATH "$PATH:/home/jovyan/software/racon/build/bin"
 ENV PATH "$PATH:/home/jovyan/software/bowtie2-2.3.4.1-linux-x86_64"
@@ -202,10 +207,11 @@ ENV PATH "$PATH:/home/jovyan/software/canu/Linux-amd64/bin"
 ENV PATH "$PATH:/home/jovyan/software/quast"
 ENV PATH "$PATH:/home/jovyan/software/miniasm"
 ENV PATH "$PATH:/home/jovyan/software/pilon"
-ENV PATH "$PATH:/home/jovyan/software/Flye-2.3.1/bin"
+ENV PATH "$PATH:/home/jovyan/software/Flye-2.3.6/bin"
 ENV PATH "$PATH:/home/jovyan/software/nanopolish"
-ENV PATH "$PATH:/home/jovyan/software/MaSuRCA-3.2.4/bin"
+ENV PATH "$PATH:/home/jovyan/software/MaSuRCA-3.2.8/bin"
 ENV PATH "$PATH:/home/jovyan/software/Bandage"
+ENV PATH "$PATH:/home/jovyan/software/NanoSim-2.1.0/src"
 
 
 WORKDIR /home/jovyan/notebooks
